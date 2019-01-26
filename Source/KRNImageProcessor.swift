@@ -9,10 +9,12 @@
 import UIKit
 
 open class KRNImageProcessor {
+    
     // resize and crop image so it will fit to newWidth and newHeight
     // can be used for any UIImageView where we don't want to scale image unproportionally but want image
     // fits full size of UIImageView frame
-    open func resizeAndCropImage(image : UIImage, newWidth : CGFloat, newHeight : CGFloat) -> UIImage? {
+    
+    open func resizeAndCropImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat) -> UIImage? {
         
         let imageResizer = KRNImageResizer()
         let imageCropper = KRNImageCropper()
@@ -21,22 +23,23 @@ open class KRNImageProcessor {
         var widthToResize = newWidth
         var heightToResize = newHeight
         
-        if (UIScreen.main.scale != image.scale) {
+        if UIScreen.main.scale != image.scale {
             widthToResize = newWidth * UIScreen.main.scale
             heightToResize = newHeight * UIScreen.main.scale
         }
         
-        guard var image2 = imageResizer.resizeProportionaly(image: image, width: widthToResize) else {
+        guard var image2 = imageResizer.resizeProportionaly(image: image,
+                                                            width: widthToResize) else {
             return nil
         }
        
-        print(image2.size)
-        print(image2.scale)
-        
-        
         let oneSide = (image2.size.height - heightToResize) / 2
                 
-        if let croppedImage = imageCropper.cropSides(image: image2, top: oneSide, right: 0, left: 0, bottom: oneSide) {
+        if let croppedImage = imageCropper.cropSides(image: image2,
+                                                     top: oneSide,
+                                                     right: 0,
+                                                     left: 0,
+                                                     bottom: oneSide) {
             image2 = croppedImage
         }
         
